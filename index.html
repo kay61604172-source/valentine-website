@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will you be my Valentine? 💕</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #ff9ff3);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            transition: background 1s ease;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+        .letter-envelope {
+            position: relative;
+            width: 320px;
+            height: 240px;
+            cursor: pointer;
+            animation: envelopeFloat 3s ease-in-out infinite;
+            transition: transform 0.3s ease;
+            user-select: none;
+            margin-bottom: 40px;
+        }
+        .letter-envelope:hover {
+            transform: scale(1.05);
+        }
+        .letter-envelope:active {
+            transform: scale(0.98);
+        }
+        .envelope-body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe0b2 50%, #ffcba4 100%);
+            border: 6px solid #d4a574;
+            border-radius: 25px 25px 70px 70px;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+        .envelope-flap {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 60px solid #d4a574;
+            transition: transform 0.5s ease;
+        }
+        .letter-envelope:hover .envelope-flap {
+            transform: translateX(-50%) rotate(-8deg);
+        }
+        .envelope-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #d68910;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.9);
+            z-index: 3;
+        }
+        @keyframes envelopeFloat {
+            0%, 100% { transform: translateY(0px) rotate(1deg); }
+            50% { transform: translateY(-25px) rotate(-1deg); }
+        }
+        #mainContainer, #celebration {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            text-align: center;
+            width: 100%;
+        }
+        #mainContainer.show, #celebration.show {
+            opacity: 1;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.5em;
+            margin: 10px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+        }
+        .yes { 
+            background: #00b894; 
+            color: white; 
+            z-index: 13;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        }
+        .no { 
+            background: #e17055; 
+            color: white; 
+            z-index: 11;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .no:hover {
+            background: #d63031;
+        }
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 20px;
+            animation: float 6s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        .kiss-doll {
+            font-size: 5em;
+            animation: kiss 0.6s infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes kiss {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.2) translateY(-10px); }
+        }
+        .love-text {
+            font-size: 1.8em;
+            background: linear-gradient(45deg, #ff9ff3, #f368e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s infinite alternate;
+            margin-bottom: 30px;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ff69b4; }
+            to { text-shadow: 0 0 20px #ff1493; }
+        }
+        .go-back-btn {
+            background: #fdcb6e !important;
+            color: #2d3436 !important;
+            font-weight: bold;
+            z-index: 16;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="hearts" id="hearts"></div>
+        
+        <div class="letter-envelope" id="envelope" onclick="openLetter()">
+            <div class="envelope-body"></div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-text">A letter<br>for you 💌</div>
+        </div>
+
+        <div id="mainContainer">
+            <h1>💖 Will you be my Valentine? 💖</h1>
+            <p style="font-size: 1.2em; margin-bottom: 30px;">From the moment I saw you, I knew you were special!</p>
+            <button class="btn yes" onclick="yesClick()">❤️ Yes!</button>
+            <button class="btn no" onclick="noClick()">❌ No</button>
+        </div>
+
+        <div id="celebration">
+            <div class="kiss-doll">😘💕😘💕😘</div>
+            <div class="love-text">Yay! We're official! 😍💕</div>
+            <button class="btn go-back-btn" onclick="goBack()">↩️ Go Back</button>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://www.free-stock-music.com/music-download.php?id=L9Iu1W0u0&type=mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        let yesScale = 1.0;
+        const maxScale = 4.0;
+        const music = document.getElementById('bgMusic');
+        
+        const noTexts = ["Are you sure?", "Really sure?", "Think again!", "Last chance!", "Surely not?", "You might regret this!", "Give it another thought!", "Are you absolutely certain?", "This could be a mistake!", "Have a heart!", "Dont be so cold!", "Change of heart?", "Wouldnt you reconsider?", "Is that your final answer?", "You're breaking my heart ;("];
+        const noBounces = ['translate(140px, -80px)', 'translate(-140px, -80px)', 'translate(120px, 100px)', 'translate(-120px, 100px)', 'translate(180px, 0px)', 'translate(-180px, 0px)', 'translate(0px, -140px)', 'translate(0px, 160px)'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.getElementById('hearts').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 300);
+
+        function openLetter() {
+            document.getElementById('envelope').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('envelope').style.display = 'none';
+                document.getElementById('mainContainer').classList.add('show');
+            }, 500);
+            music.volume = 0.3;
+            music.play().catch(console.log);
+        }
+
+        function yesClick() {
+            document.body.style.background = 'linear-gradient(45deg, #00b894, #00cec9)';
+            document.getElementById('mainContainer').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('celebration').classList.add('show');
+            }, 500);
+            music.volume = 0.5;
+        }
+
+        function noClick() {
+            const noBtn = document.querySelector('.no');
+            const yesBtn = document.querySelector('.yes');
+            
+            const randomText = noTexts[Math.floor(Math.random() * noTexts.length)];
+            const randomBounce = noBounces[Math.floor(Math.random() * noBounces.length)];
+            
+            noBtn.innerHTML = randomText;
+            noBtn.style.transform = randomBounce;
+            
+            yesScale = Math.min(yesScale * 1.2, maxScale);
+            yesBtn.style.transform = `scale(${yesScale})`;
+            yesBtn.style.opacity = Math.max(0.3, 1 - (yesScale - 1) * 0.12);
+        }
+
+        function goBack() {
+            document.body.style.background = 'linear-gradient(45deg, #ff6b9d, #c44569, #ff9ff3)';
+            document.getElementById('celebration').classList.remove('show');
+            document.getElementById('mainContainer').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('envelope').style.display = 'block';
+                document.getElementById('envelope').style.opacity = '1';
+            }, 500);
+            
+            yesScale = 1.0;
+            document.querySelector('.yes').style.transform = 'scale(1)';
+            document.querySelector('.yes').style.opacity = '1';
+            document.querySelector('.no').innerHTML = '❌ No';
+            document.querySelector('.no').style.transform = 'none';
+            music.volume = 0.3;
+        }
+
+        music.volume = 0.3;
+    </script>
+</body>
+</html>
